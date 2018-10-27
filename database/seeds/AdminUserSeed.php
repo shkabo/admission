@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Roles;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeed extends Seeder
 {
@@ -18,7 +19,7 @@ class AdminUserSeed extends Seeder
             'email' => 'admissions@cloudhorizon.com',
             'email_verified_at' => now(),
             'phone' => '1234567890',
-            'password' => bcrypt('admissions'),
+            'password' => Hash::make('admissions'),
             'active' => 1
         ]);
     }

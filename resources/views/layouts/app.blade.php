@@ -39,6 +39,17 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        @auth('role:administrator')
+                            <li class="nav-item dropdown">
+                                <a id="usersDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Users <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="usersDropdown">
+                                    <a href="{{ route('user.show.list') }}" class="dropdown-item">List Users</a>
+                                    <a href="{{ route('user.show.create') }}" class="dropdown-item">Add User</a>
+                                </div>
+                            </li>
+                        @endauth
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -72,9 +83,8 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+                    @yield('content')
+
     </div>
 </body>
 </html>

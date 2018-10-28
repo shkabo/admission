@@ -37,6 +37,7 @@ Route::get('admissiontype/{id}', 'AdmissionType@show')->name('admission.type.vie
 Route::get('/admissions', 'Admissions@index')->name('admission.show.list');
 Route::post('/admission/apply/{id}', 'Admissions@apply')->name('admission.apply');
 Route::get('/admissions/ajax/{id?}/{date?}', 'Admissions@ajaxTime')->name('admission.ajax');
+Route::get('/admissions/my', 'Admissions@applicationsList')->name('admission.my');
 
 Route::get('/temp', function() {
 

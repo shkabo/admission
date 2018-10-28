@@ -44,16 +44,28 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @auth
-                            <a href="{{ route('admission.show.list') }}">Admissions</a>
                             <li class="nav-item dropdown">
-                                <a id="admissionTypes" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Admission Types <span class="caret"></span>
+                                <a id="admissions" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Admissions <span class="caret"></span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="usersDropdown">
-                                    <a href="{{ route('admission.type.show.list') }}" class="dropdown-item">List Admission Types</a>
-                                    <a href="{{ route('admission.type.show.create') }}" class="dropdown-item">Add Admission Type</a>
+                                @if (Auth::user()->isStudent())
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="admissions">
+                                    <a href="{{ route('admission.show.list') }}" class="dropdown-item">List Admissions</a>
+                                    <a href="{{ route('admission.my') }}" class="dropdown-item">My Applications</a>
                                 </div>
+                                @endif
                             </li>
+                            @if (Auth::user()->isAdmin())
+                                <li class="nav-item dropdown">
+                                    <a id="admissionTypes" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Admission Types <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="admissionTypes">
+                                        <a href="{{ route('admission.type.show.list') }}" class="dropdown-item">List Admission Types</a>
+                                        <a href="{{ route('admission.type.show.create') }}" class="dropdown-item">Add Admission Type</a>
+                                    </div>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 @if (Auth::user()->isAdmin())
                                 <a id="usersDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

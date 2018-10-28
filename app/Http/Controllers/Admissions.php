@@ -48,6 +48,13 @@ class Admissions extends Controller
         return json_encode(['datum' => $intervals]);
     }
 
+    /**
+     *  Store students applications in the db
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function apply(Request $request, $id) {
         if (!$request->has(['datum', 'vreme'])) {
             abort(400, 'There was something wrong with the request');
@@ -63,5 +70,23 @@ class Admissions extends Controller
         }
         $type_name = \App\AdmissionTypes::find($id)->name;
         return redirect()->route('admission.show.list')->with('success', 'You have successfully applied to ' . $type_name);
+    }
+
+    /**
+     *  List of students applications
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function applicationsList() {
+        if (! \Auth::user()->isStudent()) {
+            abort(403, 'You can\'t access this area');
+        }
+        $applications = \DB::table('admissions as ad')
+                            ->select('at.name', 'ad.date', 'wh.time', 'ad.status')
+                            ->join('admission_types as at', 'ad.admission_types_id', 'at.id')
+                            ->join('working_hours as wh', 'ad.working_hours_id', 'wh.id')
+                            ->where('user_id', \Auth::user()->id)
+                            ->paginate(15);
+        return view('admission.applied', ['applications' => $applications]);
     }
 }

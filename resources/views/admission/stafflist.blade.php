@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header">Admission Types List</div>
+                    <div class="card-header">My Applications</div>
 
                     <div class="card-body">
                         @if (session('success'))
@@ -41,33 +41,54 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th scope="col">Name</th>
+                                <th scope="col">Admission</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">User</th>
                                 <th scope="col">Status</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($types as $type)
+                            @foreach ($applications as $app)
                                 <tr>
-                                    <td>{{ $type->name }}</td>
+                                    <td>{{ $app->name }}</td>
+                                    <td>{{ $app->date }}</td>
+                                    <td>{{ $app->time }}</td>
+                                    <td>{{ $app->user }}</td>
                                     <td>
-                                        @if ($type->status == '1')
-                                            Active
-                                        @else
-                                            Innactive
+                                        @if ($app->status == null)
+                                            Pending
+                                        @elseif ($app->status == 0)
+                                            Rejected
+                                        @elseif ($app->status == 1)
+                                            Confirmed
                                         @endif
                                     </td>
                                     <td>
-                                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('admission.type.show.edit', ['id' => $type->id]) }}">
-                                            <img src="/svg/pencil.svg" alt="pencil">
-                                        </a>
+                                        @if ($app->status == null)
+                                            <a class="btn btn-outline-success btn-sm" href="{{ route('admission.approve', ['id' => $app->id]) }}">
+                                                <img src="/svg/check.svg">
+                                            </a>
+                                            <a class="btn btn-outline-danger btn-sm" href="{{ route('admission.reject', ['id' => $app->id]) }}">
+                                                <img src="/svg/x.svg">
+                                            </a>
+                                        @elseif ($app->status == 0)
+                                            <a class="btn btn-outline-success btn-sm" href="{{ route('admission.approve', ['id' => $app->id]) }}">
+                                                <img src="/svg/check.svg">
+                                            </a>
+                                        @elseif ($app->status == 1)
+                                            <a class="btn btn-outline-danger btn-sm" href="{{ route('admission.reject', ['id' => $app->id]) }}">
+                                                <img src="/svg/x.svg">
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
 
-                        {{ $types->links() }}
+                        {{ $applications->links() }}
 
                     </div>
                 </div>

@@ -48,12 +48,15 @@
                                 <a id="admissions" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Admissions <span class="caret"></span>
                                 </a>
-                                @if (Auth::user()->isStudent())
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="admissions">
-                                    <a href="{{ route('admission.show.list') }}" class="dropdown-item">List Admissions</a>
-                                    <a href="{{ route('admission.my') }}" class="dropdown-item">My Applications</a>
+                                    @if (Auth::user()->isStudent())
+                                        <a href="{{ route('admission.show.list') }}" class="dropdown-item">List Admissions</a>
+                                        <a href="{{ route('admission.my') }}" class="dropdown-item">My Applications</a>
+                                    @endif
+                                    @if (Auth::user()->isStaff())
+                                            <a href="{{ route('admission.show.list') }}" class="dropdown-item">List Admissions</a>
+                                    @endif
                                 </div>
-                                @endif
                             </li>
                             @if (Auth::user()->isAdmin())
                                 <li class="nav-item dropdown">

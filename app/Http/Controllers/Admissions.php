@@ -20,7 +20,7 @@ class Admissions extends Controller
                 return 'admin';
                 break;
             case 'staff':
-                return 'staff';
+                return $this->staffApplicationsListing();
                 break;
             default:
                 // return only available opened application types where student didn't apply
@@ -88,5 +88,18 @@ class Admissions extends Controller
                             ->where('user_id', \Auth::user()->id)
                             ->paginate(15);
         return view('admission.applied', ['applications' => $applications]);
+    }
+
+    public function staffApplicationsListing() {
+        if (! \Auth::user()->isStaff()) {
+            abort(403, 'You can\'t access this area');
+        }
+        $applications = \DB::table('admissions as ad')
+            ->select('ad.id', 'at.name', 'ad.date', 'wh.time', 'ad.status', 'u.name as user')
+            ->join('admission_types as at', 'ad.admission_types_id', 'at.id')
+            ->join('working_hours as wh', 'ad.working_hours_id', 'wh.id')
+            ->join('users as u', 'ad.user_id', 'u.id')
+            ->paginate(15);
+        return view('admission.stafflist', ['applications' => $applications]);
     }
 }

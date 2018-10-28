@@ -112,7 +112,7 @@
                                             @if ($user->role_id == $role->id)
                                                 <option value="{{$role->id}}" selected>{{ ucwords($role->name) }}</option>
                                             @else
-                                            <option value="{{$role->id}}">{{ ucwords($role->name) }}</option>
+                                                <option value="{{$role->id}}">{{ ucwords($role->name) }}</option>
                                             @endif
                                         @endforeach
                                     </select>

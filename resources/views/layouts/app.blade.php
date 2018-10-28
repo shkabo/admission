@@ -41,6 +41,15 @@
                         <!-- Authentication Links -->
                         @auth
                             <li class="nav-item dropdown">
+                                <a id="admissionTypes" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Admission Types <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="usersDropdown">
+                                    <a href="{{ route('admission.type.show.list') }}" class="dropdown-item">List Admission Types</a>
+                                    <a href="{{ route('admission.type.show.create') }}" class="dropdown-item">Add Admission Type</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
                                 @if (Auth::user()->isAdmin())
                                 <a id="usersDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Users <span class="caret"></span>

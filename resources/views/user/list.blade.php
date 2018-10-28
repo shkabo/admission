@@ -55,7 +55,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ ucwords($user->role->name) }}</td>
                                     <td>
-                                        @if ($user->active === '1')
+                                        @if ($user->active == '1')
                                             Active
                                         @else
                                             Not Active

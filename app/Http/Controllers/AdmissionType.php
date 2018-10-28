@@ -11,7 +11,7 @@ class AdmissionType extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:administrator');
+        $this->middleware('role:administrator', ['except' => ['show']]);
     }
 
     /**
@@ -66,7 +66,8 @@ class AdmissionType extends Controller
      */
     public function show($id)
     {
-        //
+        $type = AdmissionTypes::find($id);
+        return view('admissiontype.show', ['type' => $type]);
     }
 
     /**

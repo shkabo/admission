@@ -15,6 +15,11 @@ class CreateAdmissionsTable extends Migration
     {
         Schema::create('admissions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('admission_types_id');
+            $table->date('date');
+            $table->integer('working_hours_id');
+            $table->boolean('status')->nullable();
             $table->timestamps();
         });
     }

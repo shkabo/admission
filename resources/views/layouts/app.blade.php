@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -18,6 +19,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.standalone.min.css') }}">
+
+
 </head>
 <body>
     <div id="app">
@@ -40,6 +44,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @auth
+                            <a href="{{ route('admission.show.list') }}">Admissions</a>
                             <li class="nav-item dropdown">
                                 <a id="admissionTypes" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Admission Types <span class="caret"></span>
@@ -93,9 +98,7 @@
                 </div>
             </div>
         </nav>
-
                     @yield('content')
-
     </div>
 </body>
 </html>

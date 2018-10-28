@@ -60,7 +60,7 @@ class LoginController extends Controller
         if (!is_null($user) && Hash::check($request->input('password'), $user->password))
         {
             // check if the user is active or not ?
-            return $user->active === '1';
+            return $user->active == '1';
         }
         // Bad credentials, nothing to check
         return false;

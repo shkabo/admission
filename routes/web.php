@@ -31,3 +31,17 @@ Route::get('admissiontype/create', 'AdmissionType@create')->name('admission.type
 Route::post('admissiontype/create', 'AdmissionType@store')->name('admission.type.create');
 Route::get('admissiontype/edit/{id}', 'AdmissionType@edit')->name('admission.type.show.edit');
 Route::post('admissiontype/edit/{id}', 'AdmissionType@update')->name('admission.type.update');
+Route::get('admissiontype/{id}', 'AdmissionType@show')->name('admission.type.view');
+
+// Admission routes
+Route::get('/admissions', 'Admissions@index')->name('admission.show.list');
+Route::post('/admission/apply/{id}', 'Admissions@apply')->name('admission.apply');
+Route::get('/admissions/ajax/{id?}/{date?}', 'Admissions@ajaxTime')->name('admission.ajax');
+
+Route::get('/temp', function() {
+
+    $datetime = \Carbon\Carbon::parse('30.10.2018.');
+    $admissions = \App\Admissions::where('date', $datetime)->pluck('working_hours_id')->toArray();
+        //dd($admissions);
+    dd(\DB::table('working_hours')->whereNotIn('id', $admissions)->get());
+});

@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeed::class);
         $this->call(AdminUserSeed::class);
         $this->call(AddFakeUsersSeed::class);
+        $this->call(WorkingHoursSeed::class);
+        $this->call(AdmissionTypesSeed::class);
     }
 }

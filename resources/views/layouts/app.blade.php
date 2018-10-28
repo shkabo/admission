@@ -39,8 +39,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @auth('role:administrator')
+                        @auth
                             <li class="nav-item dropdown">
+                                @if (Auth::user()->isAdmin())
                                 <a id="usersDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Users <span class="caret"></span>
                                 </a>
@@ -48,6 +49,7 @@
                                     <a href="{{ route('user.show.list') }}" class="dropdown-item">List Users</a>
                                     <a href="{{ route('user.show.create') }}" class="dropdown-item">Add User</a>
                                 </div>
+                                @endif
                             </li>
                         @endauth
                         @guest

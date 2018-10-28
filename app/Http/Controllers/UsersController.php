@@ -11,6 +11,12 @@ use App\User;
 
 class UsersController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:administrator');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +24,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->paginate(15);
+        $users = User::paginate(15);
         return view('user.list', ['users' => $users]);
     }
 

@@ -30,4 +30,24 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function role() {
+        return $this->belongsTo('App\Roles');
+    }
+
+    public function hasRole($role) {
+        return (\Auth::check() && $this->role->name === $role);
+    }
+
+    public function isAdmin() {
+        return (\Auth::check() && $this->role->name === 'administrator');
+    }
+
+    public function isStaff() {
+        return (\Auth::check() && $this->role->name === 'staff');
+    }
+
+    public function isStudent() {
+        return (\Auth::check() && $this->role->name === 'student');
+    }
+
 }

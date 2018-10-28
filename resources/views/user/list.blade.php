@@ -41,9 +41,9 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col">Status</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -51,9 +51,9 @@
                             <tbody>
                                 @foreach ($users as $user)
                                 <tr>
-                                    <th scope="row">{{ $user->id }}</th>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ ucwords($user->role->name) }}</td>
                                     <td>
                                         @if ($user->active === '1')
                                             Active
@@ -62,10 +62,9 @@
                                         @endif
                                     </td>
                                     <td>
-
-
-                                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('user.show.edit', ['id' => $user->id]) }}"><img src="/svg/pencil.svg" alt="pencil"></a>
-
+                                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('user.show.edit', ['id' => $user->id]) }}">
+                                            <img src="/svg/pencil.svg" alt="pencil">
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

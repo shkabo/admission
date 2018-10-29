@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 
 class User extends Authenticatable
 {
@@ -15,8 +15,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active', 'phone', 'role_id',
     ];
 
     /**
@@ -27,4 +28,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function role() {
+        return $this->belongsTo('App\Roles');
+    }
+
+    public function hasRole($role) {
+        return (\Auth::check() && $this->role->name === $role);
+    }
+
+    public function isAdmin() {
+        return (\Auth::check() && $this->role->name === 'administrator');
+    }
+
+    public function isStaff() {
+        return (\Auth::check() && $this->role->name === 'staff');
+    }
+
+    public function isStudent() {
+        return (\Auth::check() && $this->role->name === 'student');
+    }
+
 }

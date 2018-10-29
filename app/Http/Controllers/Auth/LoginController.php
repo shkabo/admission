@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -25,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admissions';
 
     /**
      * Create a new controller instance.
@@ -35,5 +39,30 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        // check if user is active or not
+        if ($this->isActive($request)) {
+            return $this->guard()->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
+        }
+        throw ValidationException::withMessages([
+        $this->username() => [trans('auth.failed')],
+    ]);
+    }
+    public function isActive(Request $request)
+    {
+        // Check if provided credentials are correct
+        $user = User::where('email', $request->input('email'))->first();
+        if (!is_null($user) && Hash::check($request->input('password'), $user->password))
+        {
+            // check if the user is active or not ?
+            return $user->active == '1';
+        }
+        // Bad credentials, nothing to check
+        return false;
     }
 }

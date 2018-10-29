@@ -22,26 +22,22 @@ Laravel Homestead
 * Login to the Homestead
 * CD to directory where your app is
 * Generate your ``.env`` file ``cp .env.example .env``
+* Edit ``.env`` file
 * Run ``composer install``
 * ``php artisan key:generate`` if it's not generated after the installation
-* Edit ``.env`` file
 * ``php artisan migrate --seed``    
 
 ## Built With
 
 * [Laravel](https://laravel.com/) - The web framework used
 * [Bootstrap](https://getbootstrap.com/) - CSS Library
-
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* [Iconic](https://useiconic.com/open/) - SVG Icons
 
 ## Authors
 
 * **Bosko Stupar** - *Initial work* - [shkabo](https://github.com/shkabo)
 
-See also the list of [contributors](https://github.com/your/tagalytic/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/shkabo/admission/contributors) who participated in this project.
 
 ## License
 

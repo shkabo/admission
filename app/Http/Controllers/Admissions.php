@@ -17,7 +17,7 @@ class Admissions extends Controller
         $role = \Auth::user()->role;
         switch($role->name) {
             case 'administrator':
-                return 'admin';
+                return $this->adminApplicationsStats();
                 break;
             case 'staff':
                 return $this->staffApplicationsListing();
@@ -31,6 +31,33 @@ class Admissions extends Controller
         }
     }
 
+    public function adminApplicationsStats() {
+
+//                    SELECT a1.id, a1.name,
+//                        MAX(case when a1.status is NULL then a1.broj ELSE 0 END) AS pending,
+//                        MAX(case when a1.status = 0 then a1.broj ELSE 0 END) AS rejected,
+//                        MAX(case when a1.status = 1 then a1.broj ELSE 0 END) AS confirmed
+//                    FROM (
+//                        SELECT aty.id, aty.name, a.status, COUNT(*) AS broj
+//                        FROM admissions AS a
+//                        JOIN admission_types AS aty
+//                        ON aty.id = a.admission_types_id
+//                        GROUP BY aty.id, aty.name, a.status
+//                        ) AS a1
+//                    GROUP BY a1.id
+
+        $subq =  \DB::table('admissions as a')->selectRaw('aty.id, aty.name, a.status, COUNT(*) AS broj')
+                        ->join('admission_types as aty', 'aty.id', '=', 'a.admission_types_id')
+                        ->groupBy('aty.id', 'aty.name', 'a.status');
+        $data = \DB::table( \DB::raw('('. $subq->toSql() .') as a1'))->selectRaw('a1.id, a1.name, 
+                        MAX(case when a1.status is NULL then a1.broj ELSE 0 END) AS pending,
+                        MAX(case when a1.status = 0 then a1.broj ELSE 0 END) AS rejected,
+                        MAX(case when a1.status = 1 then a1.broj ELSE 0 END) AS confirmed')
+                    ->groupBy('a1.id')
+                    ->mergeBindings($subq)
+                    ->paginate(10);
+        return view('admission.info', ['applications' => $data]);
+    }
     /**
      * handle ajax request for available time
      *

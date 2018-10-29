@@ -56,6 +56,9 @@
                                     @if (Auth::user()->isStaff())
                                             <a href="{{ route('admission.show.list') }}" class="dropdown-item">Scheduled Admissions</a>
                                     @endif
+                                    @if (Auth::user()->isAdmin())
+                                            <a href="{{ route('admission.show.list') }}" class="dropdown-item">Admissions Stats</a>
+                                    @endif
                                 </div>
                             </li>
                             @if (Auth::user()->isAdmin())

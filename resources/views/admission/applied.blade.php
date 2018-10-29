@@ -55,11 +55,11 @@
                                     <td>{{ $app->time }}</td>
                                     <td>
 
-                                        @if ($app->status == null)
+                                        @if (is_null($app->status))
                                             Pending
-                                        @elseif ($app->status == 0)
+                                        @elseif ($app->status === 0)
                                             Rejected
-                                        @elseif ($app->status == 1)
+                                        @elseif ($app->status === 1)
                                             Confirmed
                                         @endif
                                     </td>

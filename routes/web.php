@@ -40,11 +40,3 @@ Route::get('/admissions/ajax/{id?}/{date?}', 'Admissions@ajaxTime')->name('admis
 Route::get('/admissions/my', 'Admissions@applicationsList')->name('admission.my');
 Route::get('/admission/approve/{id}', 'Admissions@approveAdmission')->name('admission.approve');
 Route::get('/admission/reject/{id}', 'Admissions@rejectAdmission')->name('admission.reject');
-
-Route::get('/temp', function() {
-
-    $datetime = \Carbon\Carbon::parse('30.10.2018.');
-    $admissions = \App\Admissions::where('date', $datetime)->pluck('working_hours_id')->toArray();
-        //dd($admissions);
-    dd(\DB::table('working_hours')->whereNotIn('id', $admissions)->get());
-});

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header">My Applications</div>
+                    <div class="card-header">Scheduled Applications</div>
 
                     <div class="card-body">
                         @if (session('success'))
@@ -44,7 +44,9 @@
                                 <th scope="col">Admission</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Time</th>
-                                <th scope="col">User</th>
+                                <th scope="col">Student</th>
+                                <th scope="col">Students Phone</th>
+                                <th scope="col">Students Email</th>
                                 <th scope="col">Status</th>
                                 <th scope="col"></th>
                             </tr>
@@ -56,30 +58,32 @@
                                     <td>{{ $app->date }}</td>
                                     <td>{{ $app->time }}</td>
                                     <td>{{ $app->user }}</td>
-                                    <td>
-                                        @if ($app->status == null)
+                                    <td>{{ $app->phone }}</td>
+                                    <td>{{ $app->email }}</td>
+                                    <td id="status">
+                                        @if (is_null($app->status))
                                             Pending
-                                        @elseif ($app->status == 0)
+                                        @elseif ($app->status === 0)
                                             Rejected
-                                        @elseif ($app->status == 1)
+                                        @elseif ($app->status === 1)
                                             Confirmed
                                         @endif
                                     </td>
-                                    <td>
-                                        @if ($app->status == null)
-                                            <a class="btn btn-outline-success btn-sm" href="{{ route('admission.approve', ['id' => $app->id]) }}">
-                                                <img src="/svg/check.svg">
+                                    <td id="action">
+                                        @if (is_null($app->status))
+                                            <a class="btn btn-outline-success btn-sm approve" href="{{ route('admission.approve', ['id' => $app->id]) }}" data-toggle="tooltip" data-placement="top" title="Approve admission">
+                                                <img src="/svg/check.svg" alt="Approve admission">
                                             </a>
-                                            <a class="btn btn-outline-danger btn-sm" href="{{ route('admission.reject', ['id' => $app->id]) }}">
-                                                <img src="/svg/x.svg">
+                                            <a class="btn btn-outline-danger btn-sm reject" href="{{ route('admission.reject', ['id' => $app->id]) }}" data-toggle="tooltip" data-placement="top" title="Reject admission">
+                                                <img src="/svg/x.svg" alt="Reject admission">
                                             </a>
-                                        @elseif ($app->status == 0)
-                                            <a class="btn btn-outline-success btn-sm" href="{{ route('admission.approve', ['id' => $app->id]) }}">
-                                                <img src="/svg/check.svg">
+                                        @elseif ($app->status === 0)
+                                            <a class="btn btn-outline-success btn-sm approve" href="{{ route('admission.approve', ['id' => $app->id]) }}" data-toggle="tooltip" data-placement="top" title="Approve admission">
+                                                <img src="/svg/check.svg" alt="Approve admission">
                                             </a>
-                                        @elseif ($app->status == 1)
-                                            <a class="btn btn-outline-danger btn-sm" href="{{ route('admission.reject', ['id' => $app->id]) }}">
-                                                <img src="/svg/x.svg">
+                                        @elseif ($app->status === 1)
+                                            <a class="btn btn-outline-danger btn-sm reject" href="{{ route('admission.reject', ['id' => $app->id]) }}" data-toggle="tooltip" data-placement="top" title="Reject admission">
+                                                <img src="/svg/x.svg" alt="Reject admission">
                                             </a>
                                         @endif
                                     </td>
@@ -89,10 +93,16 @@
                         </table>
 
                         {{ $applications->links() }}
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        window.onload = function() {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        }
+    </script>
 @endsection

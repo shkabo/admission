@@ -38,8 +38,8 @@ Route::get('/admissions', 'Admissions@index')->name('admission.show.list');
 Route::post('/admission/apply/{id}', 'Admissions@apply')->name('admission.apply');
 Route::get('/admissions/ajax/{id?}/{date?}', 'Admissions@ajaxTime')->name('admission.ajax');
 Route::get('/admissions/my', 'Admissions@applicationsList')->name('admission.my');
-Route::get('/admission/approve/{id}', 'Admissions@approve')->name('admission.approve');
-Route::get('/admission/reject/{id}', 'Admissions@reject')->name('admission.reject');
+Route::get('/admission/approve/{id}', 'Admissions@approveAdmission')->name('admission.approve');
+Route::get('/admission/reject/{id}', 'Admissions@rejectAdmission')->name('admission.reject');
 
 Route::get('/temp', function() {
 

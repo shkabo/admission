@@ -54,7 +54,7 @@
                                         <a href="{{ route('admission.my') }}" class="dropdown-item">My Applications</a>
                                     @endif
                                     @if (Auth::user()->isStaff())
-                                            <a href="{{ route('admission.show.list') }}" class="dropdown-item">List Admissions</a>
+                                            <a href="{{ route('admission.show.list') }}" class="dropdown-item">Scheduled Admissions</a>
                                     @endif
                                 </div>
                             </li>

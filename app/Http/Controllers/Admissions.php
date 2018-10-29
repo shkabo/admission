@@ -41,7 +41,10 @@ class Admissions extends Controller
         // time passed form ajax call
         $datetime = \Carbon\Carbon::parse($date);
         // get array of ID's that are being used currently in the database
-        $admissions = \App\Admissions::where('date', $datetime)->where('admission_types_id', $id)->pluck('working_hours_id')->toArray();
+        $admissions = \App\Admissions::where('date', $datetime)
+                                    ->where('admission_types_id', $id)
+                                    ->whereIn('status', [1, null])
+                                    ->pluck('working_hours_id')->toArray();
 
         // get available id's and times for students to apply
         $intervals = \DB::table('working_hours')->whereNotIn('id', $admissions)->get();
@@ -90,16 +93,41 @@ class Admissions extends Controller
         return view('admission.applied', ['applications' => $applications]);
     }
 
+    /**
+     *  List of all applications for Staff to view and revisit
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function staffApplicationsListing() {
         if (! \Auth::user()->isStaff()) {
             abort(403, 'You can\'t access this area');
         }
         $applications = \DB::table('admissions as ad')
-            ->select('ad.id', 'at.name', 'ad.date', 'wh.time', 'ad.status', 'u.name as user')
+            ->select('ad.id', 'at.name', 'ad.date', 'wh.time', 'ad.status', 'u.name as user', 'u.email', 'u.phone')
             ->join('admission_types as at', 'ad.admission_types_id', 'at.id')
             ->join('working_hours as wh', 'ad.working_hours_id', 'wh.id')
             ->join('users as u', 'ad.user_id', 'u.id')
             ->paginate(15);
         return view('admission.stafflist', ['applications' => $applications]);
+    }
+
+    public function approveAdmission($id) {
+        $admission = \App\Admissions::find($id);
+        if (! $admission) {
+            abort(404);
+        }
+        $admission->status = 1;
+        $admission->save();
+        return back();
+    }
+
+    public function rejectAdmission($id) {
+        $admission = \App\Admissions::find($id);
+        if (! $admission) {
+            abort(404);
+        }
+        $admission->status = 0;
+        $admission->save();
+        return back();
     }
 }
